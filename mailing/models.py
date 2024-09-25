@@ -24,3 +24,16 @@ class Letter(models.Model):
     class Meta:
         verbose_name = 'сообщение'
         verbose_name_plural = 'сообщения'
+
+
+class Mail(models.Model):
+    title = models.CharField(max_length=100, verbose_name='название рассылки', )
+    clienty = models.ManyToManyField(Client, verbose_name='Клиенты')
+    message = models.ForeignKey(Letter, on_delete=models.CASCADE, verbose_name='Cообщение', **NULLABLE,)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'рассылка'
+        verbose_name_plural = 'рассылки'

@@ -32,7 +32,7 @@
                         <li>Управляйте своими</li>
                         <li>рассылками</li>
                     </ul>
-                    <button type="button" class="w-100 btn btn-lg btn-outline-primary">Перейти</button>
+                     <a class="btn btn-primary" href="{% url 'mailing:mail_list' %}" role="button">Перейти</a>
                 </div>
             </div>
         </div>
@@ -45,25 +45,26 @@
 <!--                    <h1 class="card-title pricing-card-title">$15<small class="text-muted fw-light">/mo</small></h1>-->
                     <ul class="list-unstyled mt-3 mb-4">
                         <li>Добавляйте и удаляйте</li>
-                        <li>получателей рассылки</li>
+                        <li>получателей рассылок</li>
 
                     </ul>
                     <a class="btn btn-primary" href="{% url 'mailing:client_list' %}" role="button">Перейти</a>
                 </div>
             </div>
         </div>
-        <div class="col">
-            <div class="card mb-4 rounded-3 shadow-sm border-primary">
-                <div class="card-header py-3 text-white bg-primary border-primary">
-                    <h4 class="my-0 fw-normal">Статистика</h4>
+<div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Письма</h4>
                 </div>
                 <div class="card-body">
-<!--                    <h1 class="card-title pricing-card-title">$29<small class="text-muted fw-light">/mo</small></h1>-->
+<!--                    <h1 class="card-title pricing-card-title">$15<small class="text-muted fw-light">/mo</small></h1>-->
                     <ul class="list-unstyled mt-3 mb-4">
-                        <li>Посмотреть статистику</li>
-                        <li>отправки писем</li>
+                        <li>Создать, отредактировать</li>
+                        <li>сообщения для получателей</li>
+
                     </ul>
-                    <button type="button" href="{% url 'mailing:client_list' %}" class="w-100 btn btn-lg btn-primary">Посмотреть</button>
+                    <a class="btn btn-primary" href="{% url 'mailing:letter_list' %}" role="button">Перейти</a>
                 </div>
             </div>
         </div>
