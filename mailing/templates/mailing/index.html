@@ -1,183 +1,146 @@
+{% load static %}
 
-{% extends 'mailing/base.html' %}
-{% block content %}
+{% now "d-m-Y г H:i" as current_datetime %}
+{% load mailing_tags %}
+<!doctype html>
+<html lang="ru">
 
-<div class="container py-3">
-    <body>
+<head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="{% static 'images/Hilshat76-Python-001.jpg' %}"/>
+    <title>{% if title %}{{ title }} - {% endif %}Рассылки</title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 
-    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-        <symbol id="check" viewBox="0 0 16 16">
-            <title>Check</title>
-            <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-        </symbol>
-    </svg>
+    <link href="{% static 'css/headers.css' %}" rel="stylesheet">
+
+    <style>
+        /* CSS to create a sticky footer */
+        html, body {
+            height: 100%; /* Ensure the body takes full height */
+            margin: 0; /* Remove default margin */
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: column; /* Arrange children in a column */
+            min-height: 100vh; /* Minimum height of 100% of the viewport */
+        }
+
+        .content {
+            flex: 1; /* Allow content to grow and fill available space */
+        }
+
+        footer {
+            background-color: #f8f9fa; /* Optional: Background color for the footer */
+            border-top: 1px solid #dee2e6; /* Optional: Top border for the footer */
+            text-align: center; /* Center text in footer */
+            padding: 10px; /* Padding for footer content */
+        }
+
+    </style>
+</head>
 
 
-    <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-        <h1 class="display-4 fw-normal">Рассылка писем</h1>
-        <p class="fs-5 text-muted">Управляйте своими рассылками через  удобный и понятный интерфейс</p>
+<body style="background-image: url('../../../static/images/background.jpg');
+             background-size: cover;
+             background-repeat: no-repeat;
+             background-attachment: fixed;
+             min-height: 100vh;
+             margin: 0;">
+<div class="wrapper">
+    <div class="content">
+
+        <!-- Верхний колонтитул с меню-->
+        {% include 'mailing/includes/inc_menu.html' %}
+
+
+        <main style="padding-top: 80px;">
+
+            <!-- Заголовок -->
+
+            <main class="flex-shrink-0 mb-4">
+
+                {% if user.is_authenticated %}
+                    <h6 class="text-end m-2">({{ user.email }})</h6>
+                {% endif %}
+
+                {% if request.resolver_match.url_name == 'blog/post_list' or request.resolver_match.url_name == 'blog/post_detail' %}
+                    <div class="container text-center">
+                        <h1 class="mt-5"><strong>Рассылки</strong></h1>
+                        <h4 class="mt-3 mb-5"><strong>Сервис рассылок - это отличный вариант информирования ваших
+                            клиентов</strong></h4>
+                    </div>
+                {% endif %}
+            </main>
+
+            <!-- Блок рассылок -->
+            {% block content %}
+            {% endblock %}
+
+            <!-- Кнопка прокрутки до верха и шаг назад -->
+            <div>
+                <a class="scroll-to-top" id="scrollToTopBtn"><img src="{% static 'images/up_button.png' %}" alt="mdo"
+                                                                  width="40" height="40" class="rounded-circle"></a>
+
+{#                <a class="back-button" id="backBtn"><img src="{% static 'images/back_button.png' %}" alt="Назад"#}
+{#                                                         width="40" height="40" class="rounded-circle"></a>#}
+
+                <script>
+                    const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+                    window.onscroll = function () {
+                        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                            scrollToTopBtn.style.display = "block";
+                        } else {
+                            scrollToTopBtn.style.display = "none";
+                        }
+                    };
+                    scrollToTopBtn.onclick = function () {
+                        window.scrollTo({top: 0, behavior: 'smooth'}); // Плавная прокрутка вверх
+                    };
+
+                    const backBtn = document.getElementById('backBtn');
+                    backBtn.onclick = function () {
+                        window.history.back(); // Переход на предыдущую страницу
+                    };
+                </script>
+            </div>
+
+            <style>
+                /* CSS-стили для кнопки */
+                .scroll-to-top {
+                    position: fixed;
+                    bottom: 20px; /* Distance from the bottom */
+                    right: 20px; /* Distance from the right */
+                    z-index: 1000; /* Ensure it is above other content */
+                {#background-color: #007bff; /* Button color */#} color: white; /* Text color */
+                    border: none; /* No border */
+                    border-radius: 100%; /* Circular button */
+                    padding: 10px; /* Padding for the button */
+                    cursor: pointer; /* Pointer cursor on hover */
+                    display: none; /* Hidden by default */
+                }
+
+                .back-button {
+                    position: fixed; /* Фиксированное позиционирование */
+                    bottom: 60px; /* Отступ от низа */
+                    left: 10px; /* Отступ от левого края */
+                    display: flex; /* Центрирование содержимого */
+                    align-items: center; /* Вертикальное выравнивание */
+                    justify-content: center; /* Горизонтальное выравнивание */
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Тень */
+                    z-index: 1000; /* Поверх других элементов */
+                }
+            </style>
+
+            <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+        </main>
     </div>
-    </body>
 
-    <body>
-    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-        <div class="col">
-            <div class="card mb-4 rounded-3 shadow-sm">
-                <div class="card-header py-3">
-                    <h4 class="my-0 fw-normal">Рассылки</h4>
-                </div>
-                <div class="card-body">
-<!--                    <h1 class="card-title pricing-card-title">$0<small class="text-muted fw-light">/mo</small></h1>-->
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li>Управляйте своими</li>
-                        <li>рассылками</li>
-                    </ul>
-                     <a class="btn btn-primary" href="{% url 'mailing:mail_list' %}" role="button">Перейти</a>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card mb-4 rounded-3 shadow-sm">
-                <div class="card-header py-3">
-                    <h4 class="my-0 fw-normal">Клиенты</h4>
-                </div>
-                <div class="card-body">
-<!--                    <h1 class="card-title pricing-card-title">$15<small class="text-muted fw-light">/mo</small></h1>-->
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li>Добавляйте и удаляйте</li>
-                        <li>получателей рассылок</li>
+    <!-- Нижний колонтитул -->
+    {% include 'mailing/includes/inc_footer.html' %}
 
-                    </ul>
-                    <a class="btn btn-primary" href="{% url 'mailing:client_list' %}" role="button">Перейти</a>
-                </div>
-            </div>
-        </div>
-<div class="col">
-            <div class="card mb-4 rounded-3 shadow-sm">
-                <div class="card-header py-3">
-                    <h4 class="my-0 fw-normal">Письма</h4>
-                </div>
-                <div class="card-body">
-<!--                    <h1 class="card-title pricing-card-title">$15<small class="text-muted fw-light">/mo</small></h1>-->
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li>Создать, отредактировать</li>
-                        <li>сообщения для получателей</li>
-
-                    </ul>
-                    <a class="btn btn-primary" href="{% url 'mailing:letter_list' %}" role="button">Перейти</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    </body>
-
-    <!--<h2 class="display-6 text-center mb-4">Compare plans</h2>-->
-
-    <!--<div class="table-responsive">-->
-    <!--    <table class="table text-center">-->
-    <!--        <thead>-->
-    <!--        <tr>-->
-    <!--            <th style="width: 34%;"></th>-->
-    <!--            <th style="width: 22%;">Free</th>-->
-    <!--            <th style="width: 22%;">Pro</th>-->
-    <!--            <th style="width: 22%;">Enterprise</th>-->
-    <!--        </tr>-->
-    <!--        </thead>-->
-    <!--        <tbody>-->
-    <!--        <tr>-->
-    <!--            <th scope="row" class="text-start">Public</th>-->
-    <!--            <td>-->
-    <!--                <svg class="bi" width="24" height="24">-->
-    <!--                    <use xlink:href="#check"/>-->
-    <!--                </svg>-->
-    <!--            </td>-->
-    <!--            <td>-->
-    <!--                <svg class="bi" width="24" height="24">-->
-    <!--                    <use xlink:href="#check"/>-->
-    <!--                </svg>-->
-    <!--            </td>-->
-    <!--            <td>-->
-    <!--                <svg class="bi" width="24" height="24">-->
-    <!--                    <use xlink:href="#check"/>-->
-    <!--                </svg>-->
-    <!--            </td>-->
-    <!--        </tr>-->
-    <!--        <tr>-->
-    <!--            <th scope="row" class="text-start">Private</th>-->
-    <!--            <td></td>-->
-    <!--            <td>-->
-    <!--                <svg class="bi" width="24" height="24">-->
-    <!--                    <use xlink:href="#check"/>-->
-    <!--                </svg>-->
-    <!--            </td>-->
-    <!--            <td>-->
-    <!--                <svg class="bi" width="24" height="24">-->
-    <!--                    <use xlink:href="#check"/>-->
-    <!--                </svg>-->
-    <!--            </td>-->
-    <!--        </tr>-->
-    <!--        </tbody>-->
-
-    <!--        <tbody>-->
-    <!--        <tr>-->
-    <!--            <th scope="row" class="text-start">Permissions</th>-->
-    <!--            <td>-->
-    <!--                <svg class="bi" width="24" height="24">-->
-    <!--                    <use xlink:href="#check"/>-->
-    <!--                </svg>-->
-    <!--            </td>-->
-    <!--            <td>-->
-    <!--                <svg class="bi" width="24" height="24">-->
-    <!--                    <use xlink:href="#check"/>-->
-    <!--                </svg>-->
-    <!--            </td>-->
-    <!--            <td>-->
-    <!--                <svg class="bi" width="24" height="24">-->
-    <!--                    <use xlink:href="#check"/>-->
-    <!--                </svg>-->
-    <!--            </td>-->
-    <!--        </tr>-->
-    <!--        <tr>-->
-    <!--            <th scope="row" class="text-start">Sharing</th>-->
-    <!--            <td></td>-->
-    <!--            <td>-->
-    <!--                <svg class="bi" width="24" height="24">-->
-    <!--                    <use xlink:href="#check"/>-->
-    <!--                </svg>-->
-    <!--            </td>-->
-    <!--            <td>-->
-    <!--                <svg class="bi" width="24" height="24">-->
-    <!--                    <use xlink:href="#check"/>-->
-    <!--                </svg>-->
-    <!--            </td>-->
-    <!--        </tr>-->
-    <!--        <tr>-->
-    <!--            <th scope="row" class="text-start">Unlimited members</th>-->
-    <!--            <td></td>-->
-    <!--            <td>-->
-    <!--                <svg class="bi" width="24" height="24">-->
-    <!--                    <use xlink:href="#check"/>-->
-    <!--                </svg>-->
-    <!--            </td>-->
-    <!--            <td>-->
-    <!--                <svg class="bi" width="24" height="24">-->
-    <!--                    <use xlink:href="#check"/>-->
-    <!--                </svg>-->
-    <!--            </td>-->
-    <!--        </tr>-->
-    <!--        <tr>-->
-    <!--            <th scope="row" class="text-start">Extra security</th>-->
-    <!--            <td></td>-->
-    <!--            <td></td>-->
-    <!--            <td>-->
-    <!--                <svg class="bi" width="24" height="24">-->
-    <!--                    <use xlink:href="#check"/>-->
-    <!--                </svg>-->
-    <!--            </td>-->
-    <!--        </tr>-->
-    <!--        </tbody>-->
-    <!--    </table>-->
-    <!--</div>-->
 </div>
 
-{% endblock %}
+</body>
+
+</html>
